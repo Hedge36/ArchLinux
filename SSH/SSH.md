@@ -8,7 +8,7 @@
 >
 > 最直接的连接方式，使用root超级权限启动openconnect连接服务器，并在随后的提示符输入用户名和密码。对于更复杂的连接方式，可以采用下面的方法连接，输入user用户名和服务器地址，随后在提示后输入密码。
 >
-> 其中，校内网服务器地址为https://ocvpn.sysu.edu.cnz，用户名及密码为NetID的帐号和密码。
+> 其中，校内网服务器地址为https://ocvpn.sysu.edu.cn，用户名及密码为NetID的帐号和密码。
 
 ```bash
 $ sudo openconnect vpnserver
@@ -36,7 +36,6 @@ $ openconnect --authenticate vpnserver
 ## 1. Linux搭建SSH服务  
 
 > 为了实现SSH功能你得确定你的Linux上有安装了SSH服务，Ubuntu可能没有安装，但Arch一般已经内置有。如果采用的Linux系统没有安装ssh服务，只需要安装一个开源的SSH工具叫做OpenSSH，就可以把你的Linux变成一个服务器。安装方法通常直接采用对应的包管理即可，以下所有命令都以Ubuntu和ArchLinux为例。
->
 
 ```shell
 $ sudo apt-get openssh-server	# Ubuntu
@@ -48,14 +47,12 @@ $ sudo pacman -S openssh		# Arch
 ## 2. Linux SSH
 
 > Linux搭建SSH服务后，即可直接通过SSH登录，登录后在提示下输入密码即可，其登录命令如下：
->
 
 ```shell
 $ ssh user@sever.address
 ```
 
 > 至于如何查看IP地址，对于Ubuntu,可以通过`ifconfig`工具查看（如果没有，则需要自行安装），对于ArchLinux，可以通过`ip address`查看，这里展开说明Arch。
->
 
 ```bash
 $ ifconfig					# Ubuntu
@@ -333,7 +330,6 @@ Linux 的话, 它自带就有一个 VNC 软件. 只要你在右上角搜一下 V
 ## 1. 云端运行  
 
 > 在Linux搭建了服务器环境后, 假如我在操控端写代码，在我的 `Desktop` 文件夹下写好了一个 Python 脚本 `machine_learning.py`。但是我想拿 Mac 来做点其他事，不想让这个脚本在我的 Mac 上发光发热，那么我们就 ssh 远程推送到旁边空闲的 Linux 去运算吧。
->
 
 比如这个 Python 脚本是这样的.
 
@@ -357,7 +353,6 @@ This is Linux
 ```
 
 > 注意这和我们之前用 SSH 类似, 不过这次我们加了一个 python 文件给服务器端. 这个文件的转换方式就用 `<` 来代替. 而且因为这是一个 Python3 文件, 所以我在 ip 后面写的是用 `python3` 在云端执行本地的这个文件.
->
 
 
 

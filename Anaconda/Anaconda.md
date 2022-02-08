@@ -6,16 +6,17 @@
 
 进入环境后，可通过python进入相应环境，在随后的(env)中显示有环境名称。
 
-## 0. 频道设置
+## 1. 频道设置
 
 ```bash
 $ conda config --add channels url			# 添加镜像源
 $ conda config --set show_channel_urls yes	# 设置搜索时显示通道地址
 $ conda config --show channels				# 显示添加的镜像源
-$ conda config --remove channels url		# 删除已添加的镜像源 
+$ conda config --remove channels url		# 删除已添加的镜像源
+$ conda config --remove-key channels		# 还原镜像源设置
 ```
 
-### 镜像源地址
+镜像源地址
 
 | Url                                                          | Description  |
 | ------------------------------------------------------------ | ------------ |
@@ -26,49 +27,30 @@ $ conda config --remove channels url		# 删除已添加的镜像源
 
 
 
-## 1. 环境操作
+## 2. 环境操作
 
-也可以通过anaconda-navigator进行调整。
-
-### 1. 查看所有环境
+> 也可以通过anaconda-navigator进行调整。cli下命令如下：
 
 ```bash
+# 查看现有虚拟环境
 $ conda env list
 $ conda info -e
-```
 
-以上两个命令均可
+# 创建新的虚拟环境
+$ conda create -n <env_name> python=3.8	# 默认为当前版本
 
-### 2. 创建一个新的虚拟环境
+# 激活与关闭虚拟环境
+$ conda activate <env_name>
+$ conda deactivate        # 不用接环境名
 
-```bash
-$ conda create -n env_name python=3.8
-```
-
-指定Python的版本,否则是Python默认的版本
-
-### 3. 激活虚拟环境
-
-```bash
-$ conda activate env_name
-```
-
-### 4. 退出虚拟环境
-
-```bash
-$ conda deactivate        # linux
-```
-
-### 5. 删除虚拟环境
-
-```bash
-$ conda remove -n yourEnvname --all      # 删除虚拟环境
-$ conda remove --name $env_name  $package_name      # 删除环境中的某个package
+# 删除虚拟环境或某个包
+$ conda remove -n <env_name> --all	# 删除虚拟环境
+$ conda remove --name <env_name>  <package_name>	# 删除环境中的某个package
 ```
 
 
 
-## 2. 更新操作
+## 3. 更新操作
 
 ```bash
 $ conda update conda	# 更新conda
@@ -79,7 +61,7 @@ $ conda install spyder=1.0.0	# 更新spyder
 
 
 
-## 3. Jupyter
+## 4. Jupyter
 
 ### 1. Command
 

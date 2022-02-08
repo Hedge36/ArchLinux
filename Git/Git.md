@@ -1,57 +1,149 @@
 # git基本操作
 
-## 一、单人操作
+## 1. 基本配置
 
-### 1.1 创建空的git仓库：git init
-
-> git仓库和项目根路径在一起，用来管理项目
-
-### 1.2 配置git提交的用户名，邮箱
-
-```bash
-$ git config user.name 'username'
-$ git config user.email 'email'
-```
-
-> 如果没有配置，默认使用：home/.gitconfig根目录下的用户值
-
-### 1.3 查看文件状态：git status
-
-> 红色：表示新建文件，或者新修改的文件，目前位于工作区
+> git基本配置分为3个级别，系统(system)、全局(global)及本地(local)，分别作用于该系统上的全部用户，当前用户以及当前仓库。
 >
-> 绿色：表示文件在暂存区
-
-### 1.4 将工作区代码添加到暂存区（工作区->暂存区）
+> git的全部设置可以通过以下命令进行查看，查看完毕后，可根据相应的属性进行修改。如果无私人账户及私人电脑，不推荐使用全局配置。
 
 ```bash
-$ git add.
-$ git add xxx.py
+$ git config --list		# 查看本地设置
+$ git config --global --list		# 查看全局设置
+$ git config --system --list	 	# 查看系统设置
+$ git config --global user.name "name"		# 设置全局使用用户名
 ```
 
-### 1.5 将暂存区代码添加到仓库区
+> 对于任意一个用户，绑定`user.name`和`user.email`是必要的。如果没有配置，默认使用：home/.gitconfig根目录下的用户值。
+
+
+
+## 2. 新建仓库
+
+> git新建仓库包括以下两种方式，实际上，两种方式都需要现在云端github先创建仓库，唯一不同的是后期本地仓库的远程连接方式。
+
+### 1.1 本地新建
+
+> 本地新建仓库的方法比较麻烦，需要现在云端创建仓库后，与本地的仓库文件夹远程连接，具体方法如下，这种方法适合将本地文件夹直接改成一个仓库。
+
+```shell
+$ cd path	# 跳转到目录下
+$ git init	# 初始化仓库
+$ git remote add <CLONE-URL>	# 连接到云端仓库
+$ git checkout -b dev	# 创建并切换至分支dev
+$ git push origin dev	# 将本地分支dev提交至远程仓库
+```
+
+### 1.2 云端新建
+
+> 云端新建仓库的方式比较简单，即在云端新建后，可直接通过Terminal命令直接clone到本地即可，这种方法适合重新建立一个空仓库。
+
+```bash
+$ git clone <CLONE-URL>	# 下载远程仓库并且本地分支名为master
+$ git clone -b dev <CLONE-URL>	# 下载远程仓库并且本地分支名为dev
+```
+
+
+
+## 3. 下载仓库
+
+> 下载仓库方法很多，一般而言使用github desktop（windows）或者git clone即可。
+
+```bash
+$ git clone <CLONE-URL>
+```
+
+
+
+## 4. 分支管理
+
+> 分支是git一大特色，常用于解决现有难题或用于提供不同版本。通过checkout命令可以调整当前分支指针，以切换到不同的分支。
+
+#### 查看分支
+
+```bash
+$ git branch	# 查看本地分支
+$ git branch -a	# 查看所有分支
+```
+
+#### 切换分支
+
+```bash
+$ git checkout <branch-name>	# 切换到分支
+$ git checkout -b <branch-name>	# 创建并切换到分支
+```
+
+#### **跟踪远程分支**
+
+> *<u>origin为远程仓库（Github）的标识</u>*，意为本地修改提交到的分支对象，使用git clone下载时，会自动跟踪到远程仓库，本地初始化时，需要手动设置，否则将会创建新的分支提交。
+
+```bash
+$ git branch --set-upstream <branch-name> origin/<branch-name>	
+# 设置本地分支追踪到远程分支
+$ git branch -u origin/<branch-name>	# 将当前分支跟踪到远程分支
+$ git branch -vv 	# 查看当前分支追踪情况
+```
+
+#### 合并分支
+
+```bash
+$ git merge <branch-name>	# 合并分支到当前分支
+```
+
+
+
+## 5. 仓库管理
+
+> 仓库文件分为3个区域，工作区(working)、暂存区(staging)和仓库区(history)，工作区即为本地工作环境，暂存区为本地仓库，仓库区为远程仓库，第一次通过add命令将文件从本地工作区提交至本地仓库暂时保存，随后通过commit命令提交注释至远程仓库。
+
+### 1. 仓库状态
+
+> 查看当前文件的修改状态，默认情况下不显示忽略文件，红色为工作区修改，绿色为暂存区。
+
+```bash
+$ git status [option]	# 查看本地工作区修改
+$ git diff HEAD HEAD^ <files>	# 查看两个版本的差异
+```
+
+
+
+### 提交修改
+
+#### 工作区
+
+```bash
+$ git add.		# 提交全部修改	
+$ git add <files-name>	# 提交文件修改
+```
+
+#### 暂存区
+
+> 注释为每次提交的概括，用于区分不同的版本，注释规范参见文档`commit_norm.md`。
 
 ```bash
 $ git commit	# 编辑注释
 $ git commit --amend 	# 修改提交到上一次他
 ```
 
-### 1.6 将工作区代码添加到仓库区
+#### 仓库区
 
 ```bash
-$ git commit -am "注释信息"
+$ git push		# 提交代码到仓库区
 ```
 
-### 1.7 查看版本历史
+### 提交日志
 
 ```bash
-$ git log
-$ git reflog
+$ git log		# 查看提交日志
+$ git reflog	# 查看操作日志
 ```
 
-### 1.8 回退版本
+### 回退版本
+
+> Head表示当前指针，通过使用checkout调整指针所在版本号进行版本的回退
 
 ```bash
-$ git reset -hard HEAD
+$ git checkout <>
+$ git reset -hard HEAD	# 
 $ git reset -hard 版本号
 ```
 
@@ -61,15 +153,33 @@ $ git reset -hard 版本号
 >
 > HEAD^^或HEAD-2当前最新版本的前两个版本
 
-### 1.9 撤销工作区，暂存区修改
+### 更新版本
 
-撤销工作区：
+> 更新版本有两种方式，一般采用pull，但实际上，由于pull隐藏了更新具体过程，可能会导致一些问题，更加安全的方式是通过fetch和merge方法进行更新。
 
 ```bash
-$ git checkout filename # 如果不指定文件名字则默认全部文件
+# --- Method1 ---
+$ git pull	# 强制合并
+
+# --- Method2 ---
+$ git fetch	# 获取修改 
+$ git merge	# 合并修改
 ```
 
-撤销暂存区：
+### 撤销修改
+
+#### 撤销工作区
+
+> 撤销工作区修改有两种方式，任意一直均可。
+
+```bash
+$ git checkout <filename> # 如果不指定文件名字则默认全部文件
+$ git restore <filename>
+```
+
+#### 撤销暂存区
+
+> 同两种
 
 ```bash
 $ git reset HEAD filename # (暂存区-工作区)
@@ -78,29 +188,47 @@ $ git checkout filename
 
 > 仓库区代码不能撤销
 
-### 1.10 版本对比
+## 6. 冲突处理
+
+### 6.1 产生原因
+
+> 冲突的产生源于本地仓库与终端仓库版本差异，git提交时存在版本差异（往往是版本缺失）而无法提交，需要提交者自行处理。
+>
+> **容易冲突的操作方式**
+>
+> > 1. 多人同时操作同一个文件
+> > 2. 一个人一直写不提交
+> > 3. 修改之前不更新最新代码
+> > 4. 提交之前不更新最新代码
+> > 5. 擅自修改他人代码
+>
+> **减少冲突的操作方式**
+>
+> > 1. 先pull再修改，修改完立即commit和push
+> > 2. 一定要确保自己修改的文件是最新版本
+> > 3. 各自开发各自的模块
+> > 4. 如果要修改公共文件一定要先确认有没有人正在修改
+> > 5. 下班前一定要提交代码，上班第一件事拉取最新代码
+> > 6. 一定不要擅自修改他人代码
+
+## 7. 其他操作
+
+### 1. 短命令
+
+> git支持独立的短命令设置
 
 ```bash
-$ git diff HEAD HEAD^ -- xxx.py
+$ git config alias.<alias> "command"
+
+# then using by
+$ git <alias>
 ```
 
 
 
-## 二、多人开发
+# Sgit协作开发
 
-### 2.1 clone项目到本地
-
-```bash
-$ git clone 项目地址
-```
-
-### 2.2 推送项目到远程仓库
-
-```bash
-$ git push
-```
-
-### 2.3 配置是否输入登录密码信息
+### 2.1 配置是否输入登录密码信息
 
 ```bash
 $ git config --global credential.helper cache 十五分钟有效期
@@ -108,30 +236,11 @@ $ git config credential.helper 'cache --timeout==3600'一个小时有效期
 $ git config --global credential.helper store长期有效
 ```
 
-### 2.4 拉取远程最新代码到本地
 
-```bash
-$ git pull
-```
 
-## 三、冲突
 
-### 容易冲突的操作方式：
 
-> 1. 多人同时操作同一个文件
-> 2. 一个人一直写不提交
-> 3. 修改之前不更新最新代码
-> 4. 提交之前不更新最新代码
-> 5. 擅自修改他人代码
 
-### 减少冲突的操作方式
-
-> 1. 先pull再修改，修改完立即commit和push
-> 2. 一定要确保自己修改的文件是最新版本
-> 3. 各自开发各自的模块
-> 4. 如果要修改公共文件一定要先确认有没有人正在修改
-> 5. 下班前一定要提交代码，上班第一件事拉取最新代码
-> 6. 一定不要擅自修改他人代码
 
 ## 四、标签
 
@@ -159,47 +268,9 @@ $ git tag -d 标签名
 $ git push origin --delete tag 标签名
 ```
 
-## 五、分支
-
-分支作用：
-
-1、碰到难题
-
-2、新同事
-
-### 5.1 查看当前分支
-
-```bash
-$ git branch
-```
-
-### 5.2 创建本地分支，并切换到指定分支
-
-```bash
-$ git checkout -b 分支名
-```
-
-### 5.3 推送本地分支到远程
-
-```bash
-$ git push -u origin 分支名
-```
-
-### 5.4 切换分支
-
-```bash
-$ git checkout master /dev
-```
-
-### 5.5 合并子分支到主分支
-
-```bash
-$ git merge 分支
-```
 
 
-
-# git扩展命令
+# 参考手册
 
 ## 1. git push
 
@@ -270,11 +341,13 @@ $ git log
 
 此外还有以下参数：
 
-| 参数      | 功能         |
-| --------- | ------------ |
-| --oneline | 单行显示     |
-| --graph   | 以线图显示   |
-| --all     | 显示所有分支 |
+| 参数      | 功能                             |
+| --------- | -------------------------------- |
+| --oneline | 单行显示                         |
+| --graph   | 以线图显示                       |
+| --all     | 显示所有分支                     |
+| --stas    | 显示日志具体修改信息             |
+| --patch   | 显示日志具体修改信息及文档原文件 |
 
 
 
