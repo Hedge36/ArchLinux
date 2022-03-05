@@ -202,7 +202,7 @@ $ umask [option] [code]
 
 
 
-## 2. 更多操作
+## 2. 二级操作
 
 ### 2. 文件操作
 
@@ -301,9 +301,9 @@ $ sort [option] [file]
 
 ---
 
-#### Find file
+#### **Find file**
 
-> **Search file** with certain condition in directory.
+> **Search file** with **certain** condition in directory.
 
 ```bash
 $ find [directory] [express] [operation] 
@@ -333,6 +333,13 @@ $ find [directory] [express] [operation]
 | -ls                       | 显示文件的详细信息         |
 | -exec <u>command</u> {} \ | 对找到的文件执行命令       |
 | -ok <u>command</u> {} \   | 对找到的文件执行命令并询问 |
+
+**示例**
+
+```shell
+# 删除路径下所有文件名以.gz结尾的文件
+$ find . -name "*.gz" -type f -exec rm -fr {} \;
+```
 
 
 
@@ -391,7 +398,7 @@ Action：
 $ nl /etc/passwd | sed '2,5d'
 ```
 
-
+#### awk file
 
 ## 3. 短命令
 
@@ -444,27 +451,7 @@ $ balooctl disable
 $ balooctl status
 ```
 
-###  3. Install deb. package
-
-更新debtap数据库
-
-```bash
-$ sudo debtap -u
-```
-
-使用debtap转换deb包
-
-```bash
-$ debtap xxx.deb
-```
-
-安装
-
-```bash
-$ sudo pacman -U xxx.pkg
-```
-
-### 4. Install without sudo
+### 3. Install without sudo
 
 非主机下载软件基本步骤包括：
 
@@ -477,15 +464,15 @@ $ ./startfilename	# 运行安装bash文件
 
 
 
-## 6. 解压操作
+## 6. 解压与打包操作
+
+### 6.1 Tar
 
 Linux下常见的压缩包格式有5种:zip, tar.gz, tar.bz2, tar.xz, tar.Z，更多信息可以通过`tar --help`参数查看
 
 其中tar是种打包格式,gz和bz2等后缀才是指代压缩方式:gzip和bzip2
 
 ```bash
-$ rar a file / rar x file		# .rar
-$ unzip filename.zip			# .zip
 $ tar -zxvf filename.tar.gz 	# .tar.gz
 $ tar -jxvf filename.tar.bz2	# .tar.bz2
 $ tar -Jxvf filename.tar.xz		# .tar.xz
@@ -512,13 +499,47 @@ $ tar -Zxvf filename.tar.Z*		# .tar.Z
 
 **事实上, 从1.15版本开始tar就可以自动识别压缩的格式,故不需人为区分压缩格式就能正确解压**
 
-> tar -xvf filename.tar.gz
+```bash 
+$ tar -xvf <filename_tar.gz>
+```
+
+### 6.2 Zip
+
+> ```shell
+> $ zip -h	# for help
+> $ zip [option] [target] [from]
+> ```
+
+| 参数 | 说明               |
+| ---- | ------------------ |
+| -q   | 安静模式           |
+| -r   | 递归处理           |
+| -S   | 包含系统及隐藏文件 |
+
+### 6.3 rar
+
+> ```shell
+> $ rar -h			# for help
+> $ rar a file 		# pack one file
+> $ rar a -r archives files_to_pack	# pack a directory
+> $ rar x [archives] file			# extract
+> # note that there is not '-' before a/x;
+> ```
+
+### 6.4 gzip
+
+> ```shell
+> $ gzip -h;	# 查看帮助
+> $ gzip <file> 	# 打包成gz文件
+> $ gzip -d <file>	# 解压文件
+> ```
 
 
 
 ## 汇总
 
-Here just show command and its function, its detailed parameters can be referred by 
+> Here just show command and its function, its detailed parameters can be referred by.
+>
 
 | Command  | Description                                 |
 | -------- | ------------------------------------------- |
@@ -555,6 +576,8 @@ Here just show command and its function, its detailed parameters can be referred
 
 ## 1. 包管理
 
+### pacman
+
 > ArchLinux采用pacman作为默认的包管理，同时本机也安装有npm，一般情况下，不推荐使用npm，使用pacman包管理，部分使用差异仍在研究中。
 >
 > pacman命令手册可以通过以下命令查看，直接采用help参数可查看所有支持命令，带参数help可查看对应命令的详细说明。
@@ -576,7 +599,201 @@ $ sudo pacman -S -h
 > 8. -T(--deptest)：
 > 9. -U(--upgrade)：
 
-## 2. 用户管理
+### yay
+
+> **在AUR中安装软件包或应用程序**
+>
+> ```shell
+> $ yay -S <package-name>
+> ```
+>
+> **同时在官方存储库和AUR中搜索应用程序**
+>
+> ```shell
+> $ yay -Ss <package-name>
+> ```
+>
+> **只了解某个软件包的信息，则：**
+>
+> ```shell
+> $ yay -Si <package-name>
+> ```
+>
+> **安装本地软件包**
+>
+> ```shell
+> $ yay -U <package-name>
+> ```
+>
+> 也可以仅放置包装名称，它将搜索所有与标准相关的名称，并在列表中向我们显示找到的名称，并要求我们选择感兴趣的名称。
+>
+> ```shell
+> $ yay <package-name>
+> ```
+>
+> 检查更新项目
+>
+> ```shell
+> $ yay -Pu
+> ```
+>
+> **只同步数据库中的软件包**
+>
+> ```shell
+> $ yay -Sy
+> ```
+>
+> **执行系统更新**，同时也是布带参数默认执行的情况
+>
+> ```shell
+> $ yay -Syu
+> ```
+>
+> **更新系统，包括已安装的AUR软件包**
+>
+> ```shell
+> $ yay -Syua
+> ```
+>
+> 至 **安装任何没有提交的软件包** （当然，无需用户干预）
+>
+> ```shell
+> $ yay -S --noconfirm <package-name>
+> ```
+>
+> 消除不必要的依赖性
+>
+> ```shell
+> $ yay -Yc
+> ```
+>
+> **清除应用程序的缓存**，用于安装或更新无版本号更新的软件
+>
+> ```shell
+> $ yay -Scc
+> ```
+>
+> 单独删除软件包或应用程序
+>
+> ```shell
+> $ yay -R <package-name>
+> ```
+>
+> **删除软件包或应用程序及其依赖项**
+>
+> ```shell
+> $ yay -Rs <package-name>
+> ```
+>
+> 操作手册
+>
+> ```shell
+> $ man yay
+> ```
+
+###  deb
+
+> **注意debtap需要安装！**
+>
+> **实际上，deb并不是一个包管理，而是一个纯粹的安装工具！**
+
+更新debtap数据库
+
+```bash
+$ sudo debtap -u
+```
+
+使用debtap转换deb包
+
+```bash
+$ debtap xxx.deb
+```
+
+安装
+
+```bash
+$ sudo pacman -U xxx.pkg
+```
+
+删除
+
+```bash
+$ 
+```
+
+
+
+
+
+## 2. 进程管理
+
+### 2.1 进程查看命令
+
+> 查看进程信息的命令是ps(progress status)命令。该命令可查看记录在进程PCB中的所有信息，默认情况下。该命令只显示本终端上运行的所有进程。
+
+```bash
+$ ps [option]
+```
+
+| 选项   | 功能                     |
+| ------ | ------------------------ |
+| -e     | 显示所有进程             |
+| -t tty | 显示终端tty上的进程      |
+| -f     | 以全格式显示             |
+| -o     | 以用户定义的格式显示     |
+| a      | 显示所有终端上的所有进程 |
+| u      | 以面向用户的格式显示     |
+| x      | 显示所有不控制终端的进程 |
+| -C cmd | 显示命令名为cmd的进程    |
+| n      | 显示PID为n的进程         |
+
+#### 字段含义
+
+| 字段 | 含义                     | 字段  | 含义                |
+| ---- | ------------------------ | ----- | ------------------- |
+| PID  | 进程标识号               | TIME  | 进程累计使用CPU时间 |
+| PPID | 父进程标识号             | STIME | 进程开始时间        |
+| TTY  | 终端号，？表示不占用终端 | C     | 进程最近使用CPU时间 |
+| UID  | 进程属主                 | CMD   | 进程执行的命令名    |
+
+#### 用户格式
+
+> 指定u选项时，以用户格式，分11列显示
+
+| 字段    | 含义                            | 备注                                                         |
+| ------- | ------------------------------- | ------------------------------------------------------------ |
+| PID     | 标识号                          |                                                              |
+| %CPU    | 进程占用CPU的时间与总运行时间比 |                                                              |
+| %MEM    | 进程占用内存与总内存比          |                                                              |
+| VSZ     | 进程虚拟内存的大小              | 以KB为单位                                                   |
+| RSS     | 占用实际内存的大小              | 以KB为单位                                                   |
+| STAT    | 进程当前状态                    | R 执行态<br />S 可中断睡眠态<br />D 不可中断<br />T 暂停态<br />Z 僵死态 |
+| START   | 同STIME                         |                                                              |
+| COMMAND | 同CMD                           |                                                              |
+
+### 2.2 进程检索
+
+
+
+```bash
+$ pgrep modern
+```
+
+
+
+### 2.3 PID检索
+
+
+
+```bash
+$ pidof <name>
+```
+
+
+
+
+
+## 3. 用户管理
 
 ### 1. 用户日志
 
@@ -846,67 +1063,19 @@ $ info command
 
 
 
-# Chapter2 实践经历
+# Chapter3 实践经历
 
-## 0. 查看系统配置
+## 1. 查看系统配置
 
 ### CPU
 
 ```bash
-lscpu
+$ lscpu
 ```
 
 ### GPU
 
 > 
-
-## 1. 进程管理
-
-> 当系统内存莫名占满时，可以通过top命令查看占用内存进程的PID，随后通过ps -aux(`a`means all，`u` means user)查看进程类型，最后通过ps -A | grep PID 查看所有进程所属对象，进而在Google上查看其具体情况或直接通过kill方法将其关闭。
-
-### 1.1 进程查看命令
-
-> 查看进程信息的命令是ps(progress status)命令。该命令可查看记录在进程PCB中的所有信息，默认情况下。该命令只显示本终端上运行的所有进程。
-
-```bash
-$ ps [option]
-```
-
-| 选项   | 功能                     |
-| ------ | ------------------------ |
-| -e     | 显示所有进程             |
-| -t tty | 显示终端tty上的进程      |
-| -f     | 以全格式显示             |
-| -o     | 以用户定义的格式显示     |
-| a      | 显示所有终端上的所有进程 |
-| u      | 以面向用户的格式显示     |
-| x      | 显示所有不控制终端的进程 |
-| -C cmd | 显示命令名为cmd的进程    |
-| n      | 显示PID为n的进程         |
-
-#### 字段含义
-
-| 字段 | 含义                     | 字段  | 含义                |
-| ---- | ------------------------ | ----- | ------------------- |
-| PID  | 进程标识号               | TIME  | 进程累计使用CPU时间 |
-| PPID | 父进程标识号             | STIME | 进程开始时间        |
-| TTY  | 终端号，？表示不占用终端 | C     | 进程最近使用CPU时间 |
-| UID  | 进程属主                 | CMD   | 进程执行的命令名    |
-
-#### 用户格式
-
-> 指定u选项时，以用户格式，分11列显示
-
-| 字段    | 含义                            | 备注                                                         |
-| ------- | ------------------------------- | ------------------------------------------------------------ |
-| PID     | 标识号                          |                                                              |
-| %CPU    | 进程占用CPU的时间与总运行时间比 |                                                              |
-| %MEM    | 进程占用内存与总内存比          |                                                              |
-| VSZ     | 进程虚拟内存的大小              | 以KB为单位                                                   |
-| RSS     | 占用实际内存的大小              | 以KB为单位                                                   |
-| STAT    | 进程当前状态                    | R 执行态<br />S 可中断睡眠态<br />D 不可中断<br />T 暂停态<br />Z 僵死态 |
-| START   | 同STIME                         |                                                              |
-| COMMAND | 同CMD                           |                                                              |
 
 
 
@@ -916,7 +1085,7 @@ $ ps [option]
 
 > 在日常运维中，我们会发现主机内存使用告警，为什么Linux系统没运行多少程序，显示的可用内存这么少？其实Linux与Win的内存管理不同，会尽量缓存内存以提高读写性能，通常叫做Cache Memory。
 >
-> 有时候你会发现没有什么程序在运行，但是使用top或free命令看到可用内存free显示很少，我们可以使用`cat /proc/meminfo` 或`free -m`查看内存信息，还有一项 Cached Memory：
+> 有时候你会发现没有什么程序在运行，但是使用top或free命令看到可用内存free显示很少，我们可以使用`cat /proc/meminfo` 或`free -m`查看内存信息，还有一项 Cached Memory。
 
 ### 2.2 基本概念
 
@@ -942,13 +1111,13 @@ available 是应用程序认为可用内存数量，available = free + buffer + 
 
 ### 2.3 缓存机制介绍
 
-在Linux系统中，为了提高文件系统性能，内核利用一部分物理内存分配出缓冲区，用于缓存系统操作和数据文件，当内核收到读写的请求时，内核先去缓存区找是否有请求的数据，有就直接返回，如果没有则通过驱动程序直接操作磁盘。对于内核来说，buffer 和 cache 其实都属于已经被使用的内存。但当应用程序申请内存时，如果 free 内存不够，内核就会回收 buffer 和 cache 的内存来满足应用程序的请求。这就是稍后要说明的 buffer 和 cache。
+> 在Linux系统中，为了提高文件系统性能，内核利用一部分物理内存分配出缓冲区，用于缓存系统操作和数据文件，当内核收到读写的请求时，内核先去缓存区找是否有请求的数据，有就直接返回，如果没有则通过驱动程序直接操作磁盘。对于内核来说，buffer 和 cache 其实都属于已经被使用的内存。但当应用程序申请内存时，如果 free 内存不够，内核就会回收 buffer 和 cache 的内存来满足应用程序的请求。这就是稍后要说明的 buffer 和 cache。
+>
+> **缓存机制优点**：减少系统调用次数，降低CPU上下文切换和磁盘访问频率。
+>
+> **CPU上下文切换：**CPU给每个进程一定的服务时间，当时间片用完后，内核从正在运行的进程中收回处理器，同时把进程当前运行状态保存下来，然后加载下一个任务，这个过程叫做上下文切换。实质上就是被终止运行进程与待运行进程的进程切换。
 
-**缓存机制优点**：减少系统调用次数，降低CPU上下文切换和磁盘访问频率。
-
-**CPU上下文切换：**CPU给每个进程一定的服务时间，当时间片用完后，内核从正在运行的进程中收回处理器，同时把进程当前运行状态保存下来，然后加载下一个任务，这个过程叫做上下文切换。实质上就是被终止运行进程与待运行进程的进程切换。
-
-**缓存区分buffers和cached区别**
+#### 缓存区分buffers和cached区别
 
 内核在保证系统能正常使用物理内存和数据量读写情况下来分配缓冲区大小。
 buffers用来缓存metadata及pages，可以理解为系统缓存，例如，vi打开一个文件。
@@ -1003,7 +1172,7 @@ $ echo 3> /proc/sys/vm/drop_caches		# 表示清除pagecache和slab分配器中�
 ```
 
 上面三种方式都是临时释放缓存的方法，要想永久释放缓存，需要在/etc/sysctl.conf文件中配置：vm.drop_caches=1/2/3，然后sysctl -p生效即可！
-另外，可以使用sync命令来清理文件系统缓存，还会清理僵尸(zombie)对象和它们占用的内存
+另外，可以使用sync命令来清理文件系统缓存，还会清理僵尸(zombie)对象和它们占用的内存。
 
 ```bash
 $ sync　　

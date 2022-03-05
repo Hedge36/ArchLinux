@@ -11,23 +11,24 @@
 > 其中，校内网服务器地址为https://ocvpn.sysu.edu.cn，用户名及密码为NetID的帐号和密码。
 
 ```bash
-$ sudo openconnect vpnserver
-$ sudo openconnect -u user --passwd-on-stdin vpnserver
+$ sudo openconnect <vpn_server>	# 直接连接（推荐）
+$ sudo openconnect -u <user> --passwd-on-stdin <vpn_server>
 ```
 
 > 很多VPN提供者都会根据权限分组，不同用户组拥有不同的访问设置，如全频道连接和半频道连接，因此，想要显示不同权限组及权限差异信息，一般通过以下命令实现（该命令不需要超级权限）：
 
 ```bash
-$ openconnect --authenticate vpnserver
+$ openconnect --authenticate <vpn_server>
 ```
 
 ### 1.2 SSH操作
 
-| Operation                                                   | Description    |
-| ----------------------------------------------------------- | -------------- |
-| ssh **user**@**server.address**                             | 登陆远程服务器 |
-| cd /www/wwwroot/**server.address/**                         | 跳转路径       |
-| scp -r localpath **user**@**server.address**:**sever.path** | 上传文件       |
+| Operation                                                    | Description              |
+| ------------------------------------------------------------ | ------------------------ |
+| ssh <**user**>@<**server.address**>                          | 登陆远程服务器           |
+| ssh <**user**>@<**server.address**> <**command**>            | 登录远程服务器并执行命令 |
+| cd /www/wwwroot/<**server.address/**>                        | 跳转路径                 |
+| scp [-r] <local_path> <**user**>@<**server.address**>:<**sever.direpath**> | 上传文件                 |
 
 
 
@@ -49,7 +50,7 @@ $ sudo pacman -S openssh		# Arch
 > Linux搭建SSH服务后，即可直接通过SSH登录，登录后在提示下输入密码即可，其登录命令如下：
 
 ```shell
-$ ssh user@sever.address
+$ ssh <user>@<sever_address>
 ```
 
 > 至于如何查看IP地址，对于Ubuntu,可以通过`ifconfig`工具查看（如果没有，则需要自行安装），对于ArchLinux，可以通过`ip address`查看，这里展开说明Arch。
@@ -363,9 +364,7 @@ This is Linux
 比如我现在需要两个 Python 文件才能运行, `b.py` 如下:
 
 ```python
-# This is b.py
-
-
+# b.py
 def inner_func():
     print("This is a function in b")
 ```
@@ -374,7 +373,7 @@ def inner_func():
 还有一个 `a.py` 需要调用 `b.py` 才能运行.
 
 ```python
-# This is a.py
+# a.py
 from b import inner_func
 
 inner_func()
@@ -434,8 +433,6 @@ env.render()
 ```shell
 $ ssh morvan@192.168.0.114 "export DISPLAY=:0; python3 reinforcement_learning.py"
 ```
-
-
 
 
 
@@ -503,3 +500,4 @@ Windows 找到共享的文件也非常简单, 只需要找到你的局域网电�
 [![05-02-01.png](/home/hedge/Typora/Temp-image/05-02-01.png)](https://static.mofanpy.com/results/linux-basic/05-02-01.png)
 
 现在我就能直接在我的 Mac 上编辑云端的文件, 比如做一个 Python 的项目, 然后 [SSH](https://mofanpy.com/tutorials/others/linux-basic/ssh-from-linux-or-mac) 去 Linux 云端运行这个写好的文件. 方便又不占你 Mac 的空间.
+

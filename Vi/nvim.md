@@ -3,7 +3,6 @@
 ## 1. Tutor
 
 > Enter `vimtutor` to read tutor of vim.
->
 
 
 
@@ -238,3 +237,40 @@ You can add all your preferred settings to this "vimrc" file.
 > Command line completion with CTRL-D and <TAB> 
 
 NOTE:  Completion works for many commands.  Just try pressing CTRL-D and <TAB>.  It is especially useful for  :help .
+
+
+
+# Plugin
+
+## Vim-Plug
+
+> 自从 Vim 8 以后，包管理器变得不那么有用了，但是一些用户仍然喜欢它们，因为它们能够自动更新一些插件。有几个包管理器可供选择，并且它们各不相同，但是 [vim-plug](https://github.com/junegunn/vim-plug) 有一些很棒的特性和最好的文档，这使我们很容易开始并在以后深入研究。
+
+### 1. 安装
+
+> 安装 vim-plug，以便它在启动时自动加载：
+
+```shell
+$ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+> 创建一个 `~/.vimrc` 文件（如果你还没有这个文件），然后输入以下文本：
+
+```text
+call plug#begin()
+Plug 'preservim/NERDTree'
+call plug#end()
+```
+
+> 每次要安装插件时，都必须在 `plug＃begin()` 和 `plug＃end()` 之间输入插件的名称和位置（上面以 NERDTree 文件管理器为例）。如果你所需的插件未托管在 GitHub 上，你可以提供完整的 URL，而不仅仅是 GitHub 的用户名和项目 ID。你甚至可以在 `~/.vim` 目录之外“安装”本地插件。
+>
+> 最后，启动 Vim 并提示 vim-plug 安装 `~/.vimrc` 中列出的插件，等待下载即可。
+
+```text
+:PlugInstall
+```
+
+### 2. 配置
+
+> 与vim有些差异，nvim的配置文件位于`.config/nvim/init.vim`

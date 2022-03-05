@@ -72,9 +72,11 @@ $ git checkout <branch-name>	# 切换到分支
 $ git checkout -b <branch-name>	# 创建并切换到分支
 ```
 
-#### **跟踪远程分支**
+#### **关联远程分支**
 
 > *<u>origin为远程仓库（Github）的标识</u>*，意为本地修改提交到的分支对象，使用git clone下载时，会自动跟踪到远程仓库，本地初始化时，需要手动设置，否则将会创建新的分支提交。
+>
+> ==一般情况下，本地分支与跟踪的远程分支名应该相同！==
 
 ```bash
 $ git branch --set-upstream <branch-name> origin/<branch-name>	
@@ -85,8 +87,18 @@ $ git branch -vv 	# 查看当前分支追踪情况
 
 #### 合并分支
 
+> 当分支完成测试功能，能够正常使用时，可以将测试分支合并到主支。
+
 ```bash
 $ git merge <branch-name>	# 合并分支到当前分支
+```
+
+#### 重命名分支
+
+> 当分支名冲突或名字不好听时，可以对分支名进行重命名，其中，对当前分支重命名时可以省略<old_name>参数。
+
+```bash
+$ git branch -m <old_name> <new_name>	# 重命名分支
 ```
 
 
@@ -575,9 +587,9 @@ $ git whatchanged
 
 
 
-# 大文件操作
+# Large File Storage
 
-## Getting Started
+## 1. Getting Started
 
 [Download](https://github.com/git-lfs/git-lfs/releases/download/v2.13.2/git-lfs-windows-v2.13.2.exe) and install the Git command line extension. Once downloaded and installed, set up Git LFS for your user account by running:
 
@@ -609,7 +621,7 @@ $ git commit -m "Add design file"
 $ git push origin main
 ```
 
-## Git LFS is an open source project
+## 2. Git LFS is an open source project
 
 To file an issue or contribute to the project, head over [to the repository](https://github.com/git-lfs/git-lfs?utm_source=gitlfs_site&utm_medium=repo_link&utm_campaign=gitlfs) or read our [guide to contributing](https://github.com/git-lfs/git-lfs/blob/main/CONTRIBUTING.md?utm_source=gitlfs_site&utm_medium=contributing_link&utm_campaign=gitlfs).
 
