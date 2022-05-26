@@ -6,7 +6,7 @@
 
 > 经测试，在ArchLinux（本机）中，登录sysu最方便的方式是采用openconnect连接。
 >
-> 最直接的连接方式，使用root超级权限启动openconnect连接服务器，并在随后的提示符输入用户名和密码。对于更复杂的连接方式，可以采用下面的方法连接，输入user用户名和服务器地址，随后在提示后输入密码。
+> 最直接的连接方式，使用root权限启动openconnect连接服务器，并在随后的提示符输入用户名和密码。对于更复杂的连接方式，可以采用下面的方法连接，输入user用户名和服务器地址，随后在提示后输入密码。
 >
 > 其中，校内网服务器地址为https://ocvpn.sysu.edu.cn，用户名及密码为NetID的帐号和密码。
 
@@ -29,6 +29,9 @@ $ openconnect --authenticate <vpn_server>
 | ssh <**user**>@<**server.address**> <**command**>            | 登录远程服务器并执行命令 |
 | cd /www/wwwroot/<**server.address/**>                        | 跳转路径                 |
 | scp [-r] <local_path> <**user**>@<**server.address**>:<**sever.direpath**> | 上传文件                 |
+| scp -r lttws@211.66.130.74:~ .                               | 下载文件                 |
+
+
 
 
 
@@ -65,7 +68,7 @@ $ ip address | grep inet	# Arch
     inet6 ......
 ```
 
-> 如上述所示，第一个inet即为本机地址，第二个inet即为本机在服务器上的IP地址。
+> 如上述所示，第一个 inet 即为本机 IPv4 环回地址，第二个 inet 即为本机在互联网上的 IPv4 地址(CIDS 地址)，inet6 为 IPv6 地址，暂时可以不予以理会。
 
 
 
@@ -77,21 +80,21 @@ $ ip address | grep inet	# Arch
 
 在这个下载界面中, 你会看到类似这样的界面, 确认你 Windows 电脑是多少位的 (32-bit 或 64-bit), 然后选择一个适合你电脑的 `.msi` 安装包.
 
-[![04-02-01.png](/home/hedge/Typora/Temp-image/04-02-01.png)](https://static.mofanpy.com/results/linux-basic/04-02-01.png)
+[![04-02-01.png](/home/hedge/Tools/typora_images/04-02-01.png)](https://static.mofanpy.com/results/linux-basic/04-02-01.png)
 
 安装好之后, 在开始菜单中找到 PuTTY, 并打开 PuTTY, 你会看到下面这样. 然后在 Host name (or IP address) 那填上被控制的 Linux 的 IP. 获取被控制 Linux IP 的方法就是在这台 Linux 的 terminal 上输入:
 
 确保 `ifconfig` 能用后, 输入 `ifconfig`, 然后找和 `inet addr` 有关的那一串 IP 地址. 之后将这个 IP 地址输入到你的 PuTTY 的 Host name (or IP address) 位置. 默认情况下, 是不用修改 port 的数值的.
 
-[![04-02-02.png](/home/hedge/Typora/Temp-image/04-02-02.png)](https://static.mofanpy.com/results/linux-basic/04-02-02.png)
+[![04-02-02.png](/home/hedge/Tools/typora_images/04-02-02.png)](https://static.mofanpy.com/results/linux-basic/04-02-02.png)
 
 点击 Open 按钮, 你就能登录 Linux 啦, 它还会跳出一个小窗, 让你确认这台电脑是不是你要链接的电脑. 如果你在自己家的局域网内,就不用担心安全问题, 直接点 Yes 就好.
 
-[![04-02-03.png](/home/hedge/Typora/Temp-image/04-02-03.png)](https://static.mofanpy.com/results/linux-basic/04-02-03.png)
+[![04-02-03.png](/home/hedge/Tools/typora_images/04-02-03.png)](https://static.mofanpy.com/results/linux-basic/04-02-03.png)
 
 最后你需要输入 Linux 的用户密码作为确认. 然后就能顺利开始在 Windows 上操控 Linux 啦. 这里我用 Windows 操控了一下我的 Raspberry Pi, 树莓派. 一个微型电脑的 Terminal.
 
-[![04-02-04.png](/home/hedge/Typora/Temp-image/04-02-04.png)](https://static.mofanpy.com/results/linux-basic/04-02-04.png)
+[![04-02-04.png](/home/hedge/Tools/typora_images/04-02-04.png)](https://static.mofanpy.com/results/linux-basic/04-02-04.png)
 
 
 
@@ -99,11 +102,11 @@ $ ip address | grep inet	# Arch
 
 安卓里有很多 ssh 的 app. 苹果肯定也不少. 其实你只要用 SSH 搜搜 app store 里面. 里面就会有非常多的可用 app. 我以 JuiceSSH 举例. 其他的应该都大同小异.
 
-[![04-03-01.png](/home/hedge/Typora/Temp-image/04-03-01.png)](https://static.mofanpy.com/results/linux-basic/04-03-01.png)
+[![04-03-01.png](/home/hedge/Tools/typora_images/04-03-01.png)](https://static.mofanpy.com/results/linux-basic/04-03-01.png)
 
 下载好 JuiceSSH. 打开你的这个 app, 如果你还没有创建过任何 ssh 链接. 你将需要点击 Connections, 自己创建一个连接.
 
-[![04-03-02.png](/home/hedge/Typora/Temp-image/04-03-02.png)](https://static.mofanpy.com/results/linux-basic/04-03-02.png)
+[![04-03-02.png](/home/hedge/Tools/typora_images/04-03-02.png)](https://static.mofanpy.com/results/linux-basic/04-03-02.png)
 
 下一步中, 我们唯一需要的就是你要连接去, ssh 去的 IP 地址. 在你的 Linux terminal 中输入 `ifconfig` 获得你现在的 IP 地址, 一个以 `inet` 开头的地址, 通常是 192.168.0.xxx 如果你的 `ifconfig` 指令不管用, 说明你还没有安装一个东西, 所以在 terminal 下输入
 
@@ -113,17 +116,17 @@ $ sudo apt install net-tools
 
 就能使用 ifconfig 了. 然后将找到的 ip 地址原封不动的放在 Address 这一栏中. 接着点击右上角的那个勾确定添加这个连接.
 
-[![04-03-03.png](/home/hedge/Typora/Temp-image/04-03-03.png)](https://static.mofanpy.com/results/linux-basic/04-03-03.png)
+[![04-03-03.png](/home/hedge/Tools/typora_images/04-03-03.png)](https://static.mofanpy.com/results/linux-basic/04-03-03.png)
 
 确定后它会跳出一个窗口, 让你确认你要连接上的电脑是否是你真正要连接上的电脑. 如果你在自己家中的路由器下, 就不用担心, 别人也很难黑得了你. 如果你在一个公用路由下. 你还是得再三检查一下, 免得到时候被黑客攻击.
 
-[![04-03-04.png](/home/hedge/Typora/Temp-image/04-03-04.png)](https://static.mofanpy.com/results/linux-basic/04-03-04.png)
+[![04-03-04.png](/home/hedge/Tools/typora_images/04-03-04.png)](https://static.mofanpy.com/results/linux-basic/04-03-04.png)
 
 然后就是输入你 Linux 电脑的用户密码了. 确认后你就能在手机上正常使用 ssh 控制你的 Linux 电脑.
 
-[![04-03-05.png](/home/hedge/Typora/Temp-image/04-03-05.png)](https://static.mofanpy.com/results/linux-basic/04-03-05.png)
+[![04-03-05.png](/home/hedge/Tools/typora_images/04-03-05.png)](https://static.mofanpy.com/results/linux-basic/04-03-05.png)
 
-[![04-03-06.png](/home/hedge/Typora/Temp-image/04-03-06.png)](https://static.mofanpy.com/results/linux-basic/04-03-06.png)
+[![04-03-06.png](/home/hedge/Tools/typora_images/04-03-06.png)](https://static.mofanpy.com/results/linux-basic/04-03-06.png)
 
 加上前面用 MacOS, Windows 和这节用手机 ssh 去 Linux 的教程, 我相信, 你正开心地倒腾着. 不过有时候你不太适应用 terminal 来操控电脑. 想要用一个可视化的界面更直观的操控 Linux 电脑. 后面要提到的 VNC 和 Teamviewer 就是你要了解的啦~
 
@@ -233,13 +236,13 @@ Teamviewer 其实已经发展得很成熟了. 它是一个跨平台的远程操�
 
 如果要用图像化的方式控制电脑, 首先我们从最方便的说起. [TeamViewer 的官网](https://www.teamviewer.com)提供了很多下载安装方式.
 
-[![04-04-02.png](/home/hedge/Typora/Temp-image/04-04-02.png)](https://static.mofanpy.com/results/linux-basic/04-04-02.png)
+[![04-04-02.png](/home/hedge/Tools/typora_images/04-04-02.png)](https://static.mofanpy.com/results/linux-basic/04-04-02.png)
 
 你可以根据你的系统选择, 而且如果是家用, 它就是免费的, 只有企业用才是收费.
 
 他的程序界面是这样的, 功能其实很完善, 左面是一些你自己的信息, 你可以提供这些信息给你的朋友, 要他们控制这台电脑. 中间的区域是你可以利用朋友发来的信息来控制朋友的电脑. 右边的区域是你自己的管理区域, 你可以用一个账号管理你想连接的电脑. 这样非常方便.
 
-[![04-04-03.png](/home/hedge/Typora/Temp-image/04-04-03.png)](https://static.mofanpy.com/results/linux-basic/04-04-03.png)
+[![04-04-03.png](/home/hedge/Tools/typora_images/04-04-03.png)](https://static.mofanpy.com/results/linux-basic/04-04-03.png)
 
 不过就像之前说的. 这种远程控制是基于互联网的, 万一你网速不好, 而且你只想在局域网里用, 卡到想死的心都有. 所以这种情况你就可以考虑 VNC.
 
@@ -283,11 +286,11 @@ Current serial number in output stream: 41
 
 首先这个问题, 我查了很久, 最后发现是新版 ubuntu 的桌面显示升级了, 好像是变成3D, 然后以前的 2D 形式的 x11vnc 都不支持. 所以我们要换一种形式的桌面. 首先要做的就是 logout 你的电脑. 在桌面右上角, 选着你的用户, 然后 logout.
 
-[![04-04-031.png](/home/hedge/Typora/Temp-image/04-04-031.png)](https://static.mofanpy.com/results/linux-basic/04-04-031.png)
+[![04-04-031.png](/home/hedge/Tools/typora_images/04-04-031.png)](https://static.mofanpy.com/results/linux-basic/04-04-031.png)
 
 然后再选择不同的桌面方式 (Xorg) 登录 ubuntu. 这样一来, 如果再重复上面的 x11vnc 启动方式, 你就不会报错了.
 
-[![04-04-032.jpeg](/home/hedge/Typora/Temp-image/04-04-032.jpeg)](https://static.mofanpy.com/results/linux-basic/04-04-032.jpeg)
+[![04-04-032.jpeg](/home/hedge/Tools/typora_images/04-04-032.jpeg)](https://static.mofanpy.com/results/linux-basic/04-04-032.jpeg)
 
 最后, 如果出现频繁跳出 x11vnc 的现象, 尝试在开启 x11vnc 的时候直接输入这个参数, 让它永远运行.
 
@@ -299,11 +302,11 @@ $ x11vnc -usepw -forever
 
 开启完之后, 使用 Mac 来连接 Linux 的 VNC 很方便, 在 Mac 中, 有一个软件叫 Screen Sharing. 打开它, 如果你 Linux 在局域网的 IP 地址(可以在 Linux 中输入 `ifconfig` 查到). 点 Connect, 最后输入你刚刚设置的 VNC 密码, 就能连上啦
 
-[![04-04-04.png](/home/hedge/Typora/Temp-image/04-04-04.png)](https://static.mofanpy.com/results/linux-basic/04-04-04.png)
+[![04-04-04.png](/home/hedge/Tools/typora_images/04-04-04.png)](https://static.mofanpy.com/results/linux-basic/04-04-04.png)
 
-[![04-04-05.png](/home/hedge/Typora/Temp-image/04-04-05.png)](https://static.mofanpy.com/results/linux-basic/04-04-05.png)
+[![04-04-05.png](/home/hedge/Tools/typora_images/04-04-05.png)](https://static.mofanpy.com/results/linux-basic/04-04-05.png)
 
-[![04-04-06.png](/home/hedge/Typora/Temp-image/04-04-06.png)](https://static.mofanpy.com/results/linux-basic/04-04-06.png)
+[![04-04-06.png](/home/hedge/Tools/typora_images/04-04-06.png)](https://static.mofanpy.com/results/linux-basic/04-04-06.png)
 
 ​    
 
@@ -322,11 +325,13 @@ Client 端的 VNC 操作流程都很简单. 只要求要一个 server 端的 IP 
 
 Linux 的话, 它自带就有一个 VNC 软件. 只要你在右上角搜一下 VNC, 那个被我圈出来的软件就是一个 Client 端的 VNC. 点开它, 输入 server 端的 IP 和他的密码就好.
 
-[![04-04-07.png](/home/hedge/Typora/Temp-image/04-04-07.png)](https://static.mofanpy.com/results/linux-basic/04-04-07.png)
+[![04-04-07.png](/home/hedge/Tools/typora_images/04-04-07.png)](https://static.mofanpy.com/results/linux-basic/04-04-07.png)
 
 
 
-# Chapter3 云服务器的使用                                                                                    
+
+
+# Chapter3 云服务器的使用
 
 ## 1. 云端运行  
 
@@ -442,7 +447,7 @@ $ ssh morvan@192.168.0.114 "export DISPLAY=:0; python3 reinforcement_learning.py
 
 假设你的情况是这样: 有两台电脑(其中一台是 Linux) ，电脑们都在同一个局域网 ，想把那台 Linux 当做云端，做云计算，又不想来回复制文件，能不能把云端的某个文件夹分享到我的本地，在本地及时修改这个共享文件夹的文件，不是云计算也行，只是想在几台电脑中共享文件。
 
-[![05-02-01.png](/home/hedge/Typora/Temp-image/05-02-01.png)](https://static.mofanpy.com/results/linux-basic/05-02-01.png)
+[![05-02-01.png](/home/hedge/Tools/typora_images/05-02-01.png)](https://static.mofanpy.com/results/linux-basic/05-02-01.png)
 
 为解决上述问题，我们可以单独创建一个要分享的文件夹, 这样你就知道自己要将哪个文件夹里的文件分享给大家了. 比如说, 在 Linux 的 Home 目录下创建一个 Shared 文件夹. 你可以用鼠标来创建或者直接在 terminal 中输入指令。
 
@@ -450,15 +455,15 @@ $ ssh morvan@192.168.0.114 "export DISPLAY=:0; python3 reinforcement_learning.py
 $ mkdir ~/Shared/
 ```
 
-[![05-02-02.png](/home/hedge/Typora/Temp-image/05-02-02.png)](https://static.mofanpy.com/results/linux-basic/05-02-02.png)
+[![05-02-02.png](/home/hedge/Tools/typora_images/05-02-02.png)](https://static.mofanpy.com/results/linux-basic/05-02-02.png)
 
 有了这个 Shared 文件夹以后, 我们来对这个文件夹动手脚. 右键选择 `Local Network Share`, 之后你会跳出来一个 Folder Sharing 的窗口, 在这个窗口中, 勾选 Share this folder.
 
-[![05-02-03.png](/home/hedge/Typora/Temp-image/05-02-03.png)](https://static.mofanpy.com/results/linux-basic/05-02-03.png)
+[![05-02-03.png](/home/hedge/Tools/typora_images/05-02-03.png)](https://static.mofanpy.com/results/linux-basic/05-02-03.png)
 
 如果你第一次做这件事, 当你选定的时候, 应该会出现上面那个要求安装东西的窗口, 点击 `install` 就好, 他会帮你安装必要组建. 安装好之后, 还会弹出一个重启 session 的窗口, 重启它. 然后给你的这个文件夹起一个 响亮 的名字, 这个名字会出现在其它的电脑上. 所以, 我就起了一个名字叫 Shared. 哈哈.
 
-[![05-02-04.png](/home/hedge/Typora/Temp-image/05-02-04.png)](https://static.mofanpy.com/results/linux-basic/05-02-04.png)
+[![05-02-04.png](/home/hedge/Tools/typora_images/05-02-04.png)](https://static.mofanpy.com/results/linux-basic/05-02-04.png)
 
 最后如果你会在其它电脑上编辑这个 Shared 里的文件, 那你就需要勾选 Allow others to create and delete files in this folder. 我觉得最下面那个选项不要选比较好, 如果选了, 任何在这个局域网内的人都能玩弄你的文件. 你肯定不想这样.
 
@@ -477,7 +482,7 @@ $ sudo smbpasswd -a morvan
 
 Windows 找到共享的文件也非常简单, 只需要找到你的局域网电脑们就好了. 当你打开文件浏览器. 找到 网络, 或者是网上邻居 然后找到你的 Linux 电脑, 输入之前设置的账号密码. 就能查看你共享的 Linux 文件夹啦.
 
-[![05-02-08.jpg](/home/hedge/Typora/Temp-image/05-02-08.jpg)](https://static.mofanpy.com/results/linux-basic/05-02-08.jpg)
+[![05-02-08.jpg](/home/hedge/Tools/typora_images/05-02-08.jpg)](https://static.mofanpy.com/results/linux-basic/05-02-08.jpg)
 
 
 
@@ -485,19 +490,19 @@ Windows 找到共享的文件也非常简单, 只需要找到你的局域网电�
 
 我们已经设置好的云端的共享文件. 接着就是在其他电脑上找到这个共享文件. 我用 MacOS 来演示一遍. 首先你需要找到这个共享的地方. 打开你的 `Finder` 文件管理器, 然后在上面的菜单中找到 `Go`, 点击 `Network`,
 
-[![05-02-05.png](/home/hedge/Typora/Temp-image/05-02-05.png)](https://static.mofanpy.com/results/linux-basic/05-02-05.png)
+[![05-02-05.png](/home/hedge/Tools/typora_images/05-02-05.png)](https://static.mofanpy.com/results/linux-basic/05-02-05.png)
 
 然后找到你的计算机名, 我这里是 `MORVAN-LINUX`, 之后点击 `connect as`, 这个意思是说要登录上之前设置好的账号密码. 如果没有经过这一步, 是无法打开 Shared 文件夹的.
 
-[![05-02-06.png](/home/hedge/Typora/Temp-image/05-02-06.png)](https://static.mofanpy.com/results/linux-basic/05-02-06.png)
+[![05-02-06.png](/home/hedge/Tools/typora_images/05-02-06.png)](https://static.mofanpy.com/results/linux-basic/05-02-06.png)
 
 点击 `connect as` 之后, 我们就按要求填写刚刚的你在 Linux 上设置的账号密码就好.
 
-[![05-02-07.png](/home/hedge/Typora/Temp-image/05-02-07.png)](https://static.mofanpy.com/results/linux-basic/05-02-07.png)
+[![05-02-07.png](/home/hedge/Tools/typora_images/05-02-07.png)](https://static.mofanpy.com/results/linux-basic/05-02-07.png)
 
 最后成功登录上, 你就能用这个云端文件夹的内容啦.
 
-[![05-02-01.png](/home/hedge/Typora/Temp-image/05-02-01.png)](https://static.mofanpy.com/results/linux-basic/05-02-01.png)
+[![05-02-01.png](/home/hedge/Tools/typora_images/05-02-01.png)](https://static.mofanpy.com/results/linux-basic/05-02-01.png)
 
 现在我就能直接在我的 Mac 上编辑云端的文件, 比如做一个 Python 的项目, 然后 [SSH](https://mofanpy.com/tutorials/others/linux-basic/ssh-from-linux-or-mac) 去 Linux 云端运行这个写好的文件. 方便又不占你 Mac 的空间.
 

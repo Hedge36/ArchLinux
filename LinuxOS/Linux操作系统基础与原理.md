@@ -74,10 +74,15 @@
 >
 > 1. 基于UNIX设计，性能出色。
 > 2. 遵循GPL许可，自由软件。
-> 3. 符合POSIX标准，兼容性好。
+> 3. 符合POSIX标准，兼容性好。POSIX是由IEEE制定的标准族，POSIX是指可移植操作系统接口，全称Portable Operating System Interface。
 > 4. 可移植性好。
 > 5. 网络功能强大。
 > 6. 安全性好。
+>
+> 它的基本思想包括两点：
+>
+> 1. **一切皆文件。**即系统中的所有内容都归结为一个文件，包括命令、硬件和软件设备等；
+> 2. 每个软件都有确切的用途。对于操作系统内核而言，都被视为拥有各自特性或者类型的文件。
 
 ### 2.3 组成结构
 
@@ -924,7 +929,7 @@ $ ps [option]
 >
 > (4)*硬件控制接口*    提供与硬件平台的接口，负责控制硬件并响应和处理中断。
 
-![Linux系统内核体系结构](/home/hedge/Typora/Temp-image/linux-system-2.jpg)
+![Linux系统内核体系结构](/home/hedge/Tools/typora_images/linux-system-2.jpg)
 
 ### 2.2 中断与系统调用
 
@@ -984,7 +989,7 @@ $ ps [option]
 
 > 如上所述，进程描述符task_struct是进程的PCB，它记录了进程的所有必要信息。
 
-![Linux进程的描述结构](/home/hedge/Typora/Temp-image/201703151059152.jpg)
+![Linux进程的描述结构](/home/hedge/Tools/typora_images/201703151059152.jpg)
 
 > 如上图所示，在内核栈的尾端有一个成为thread_info的结构，这个结构中保存了有关进程运行环境的一些标识信息，其与进程描述符通过指针紧密相连。严格地说，两者结合起来才是一个完整的PCB，之所以把它分出来植入内核是为了加快CPU对进程PCB的访问速度。
 >
@@ -1060,7 +1065,7 @@ $ ps [option]
 
 ## 2. 内核
 
-![img](/home/hedge/Typora/Temp-image/1612544738-ryejYF-image.png)
+![img](/home/hedge/Tools/typora_images/1612544738-ryejYF-image.png)
 
 内核直接坐落在硬件上，内核的主要作用就是 I/O 交互、内存管理和控制 CPU 访问。上图中还包括了 中断 和 调度器，中断是与设备交互的主要方式。中断出现时调度器就会发挥作用。这里的低级代码停止正在运行的进程，将其状态保存在内核进程结构中，并启动驱动程序。进程调度也会发生在内核完成一些操作并且启动用户进程的时候。图中的调度器是 dispatcher。
 
@@ -1093,7 +1098,7 @@ I/O 右边的是内存部件，程序被装载进内存，由 CPU 执行，这�
 
 Linux 一个非常重要的概念就是进程，Linux 进程和我们在现代操作系统中探讨的进程模型非常相似。每个进程都会运行一段独立的程序，并且在初始化的时候拥有一个独立的控制线程。换句话说，每个进程都会有一个自己的程序计数器，这个程序计数器用来记录下一个需要被执行的指令。Linux 允许进程在运行时创建额外的线程。
 
-![image.png](/home/hedge/Typora/Temp-image/1612632751-PRZnPY-image.png)
+![image.png](/home/hedge/Tools/typora_images/1612632751-PRZnPY-image.png)
 
 Linux 是一个多道程序设计系统，因此系统中存在彼此相互独立的进程同时运行。此外，每个用户都会同时有几个活动的进程。因为如果是一个大型系统，可能有数百上千的进程在同时运行。
 
@@ -1101,7 +1106,7 @@ Linux 是一个多道程序设计系统，因此系统中存在彼此相互独�
 
 Linux 中有一种特殊的守护进程被称为 计划守护进程(Cron daemon) ，计划守护进程可以每分钟醒来一次检查是否有工作要做，做完会继续回到睡眠状态等待下一次唤醒。
 
-![image.png](/home/hedge/Typora/Temp-image/1612545018-pjqtKI-image.png)
+![image.png](/home/hedge/Tools/typora_images/1612545018-pjqtKI-image.png)
 
 Cron 是一个守护程序，可以做任何你想做的事情，比如说你可以定期进行系统维护、定期进行系统备份等。在其他操作系统上也有类似的程序，比如 Mac OS X 上 Cron 守护程序被称为 launchd 的守护进程。在 Windows 上可以被称为 计划任务(Task Scheduler)。
 
@@ -1124,12 +1129,12 @@ else {
 }
 父进程在 fork 后会得到子进程的 PID，这个 PID 即能代表这个子进程的唯一标识符也就是 PID。如果子进程想要知道自己的 PID，可以调用 getpid 方法。当子进程结束运行时，父进程会得到子进程的 PID，因为一个进程会 fork 很多子进程，子进程也会 fork 子进程，所以 PID 是非常重要的。我们把第一次调用 fork 后的进程称为 原始进程，一个原始进程可以生成一颗继承树
 
-![image.png](/home/hedge/Typora/Temp-image/1612545039-KNrUqH-image.png)
+![image.png](/home/hedge/Tools/typora_images/1612545039-KNrUqH-image.png)
 
 Linux 进程间通信
 Linux 进程间的通信机制通常被称为 Inter-Process communication,IPC 下面我们来说一说 Linux 进程间通信的机制，大致来说，Linux 进程间的通信机制可以分为 6 种
 
-![image.png](/home/hedge/Typora/Temp-image/1612545062-AbCJFT-image.png)
+![image.png](/home/hedge/Tools/typora_images/1612545062-AbCJFT-image.png)
 
 信号 signal
 信号是 UNIX 系统最先开始使用的进程间通信机制，因为 Linux 是继承于 UNIX 的，所以 Linux 也支持信号机制，通过向一个或多个进程发送 异步事件信号 来实现，信号可以从键盘或者访问不存在的位置等地方产生；信号通过 shell 将任务发送给子进程。

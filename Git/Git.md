@@ -13,7 +13,7 @@ $ git config --system --list	 	# 查看系统设置
 $ git config --global user.name "name"		# 设置全局使用用户名
 ```
 
-> 对于任意一个用户，绑定`user.name`和`user.email`是必要的。如果没有配置，默认使用：home/.gitconfig根目录下的用户值。
+> 对于任意一个用户，绑定`user.name`和`user.email`是必要的。如果没有配置，默认使用 `home/.gitconfig`根目录下的用户值。
 
 
 
@@ -28,7 +28,7 @@ $ git config --global user.name "name"		# 设置全局使用用户名
 ```shell
 $ cd path	# 跳转到目录下
 $ git init	# 初始化仓库
-$ git remote add <CLONE-URL>	# 连接到云端仓库
+$ git remote add <name> <"CLONE-URL">		# 连接到云端仓库<name>分支
 $ git checkout -b dev	# 创建并切换至分支dev
 $ git push origin dev	# 将本地分支dev提交至远程仓库
 ```
@@ -39,7 +39,7 @@ $ git push origin dev	# 将本地分支dev提交至远程仓库
 
 ```bash
 $ git clone <CLONE-URL>	# 下载远程仓库并且本地分支名为master
-$ git clone -b dev <CLONE-URL>	# 下载远程仓库并且本地分支名为dev
+$ git clone -b <branch_name> <CLONE-URL>	# 下载远程仓库并且本地分支名为name
 ```
 
 
@@ -58,34 +58,42 @@ $ git clone <CLONE-URL>
 
 > 分支是git一大特色，常用于解决现有难题或用于提供不同版本。通过checkout命令可以调整当前分支指针，以切换到不同的分支。
 
-#### 查看分支
+#### 4.1 查看/新建分支
 
 ```bash
 $ git branch	# 查看本地分支
 $ git branch -a	# 查看所有分支
 ```
 
-#### 切换分支
+#### 4.2 切换分支
 
 ```bash
 $ git checkout <branch-name>	# 切换到分支
 $ git checkout -b <branch-name>	# 创建并切换到分支
 ```
 
-#### **关联远程分支**
+#### 4.3 删除分支
+
+```shell
+$ git branch -D <branch_name>	# 删除本地分支
+$ git push origin --delete branch	# 删除远程分支
+```
+
+#### 4.4 **关联远程分支**
 
 > *<u>origin为远程仓库（Github）的标识</u>*，意为本地修改提交到的分支对象，使用git clone下载时，会自动跟踪到远程仓库，本地初始化时，需要手动设置，否则将会创建新的分支提交。
 >
 > ==一般情况下，本地分支与跟踪的远程分支名应该相同！==
 
 ```bash
-$ git branch --set-upstream <branch-name> origin/<branch-name>	
+$ git remote add <name> <"url">		# add first
+$ git branch --set-upstream-to=origin/<branch-name>	<local_branch_name>
 # 设置本地分支追踪到远程分支
 $ git branch -u origin/<branch-name>	# 将当前分支跟踪到远程分支
 $ git branch -vv 	# 查看当前分支追踪情况
 ```
 
-#### 合并分支
+#### 4.5 合并分支
 
 > 当分支完成测试功能，能够正常使用时，可以将测试分支合并到主支。
 
@@ -93,7 +101,7 @@ $ git branch -vv 	# 查看当前分支追踪情况
 $ git merge <branch-name>	# 合并分支到当前分支
 ```
 
-#### 重命名分支
+#### 4.6 重命名分支
 
 > 当分支名冲突或名字不好听时，可以对分支名进行重命名，其中，对当前分支重命名时可以省略<old_name>参数。
 
@@ -107,7 +115,7 @@ $ git branch -m <old_name> <new_name>	# 重命名分支
 
 > 仓库文件分为3个区域，工作区(working)、暂存区(staging)和仓库区(history)，工作区即为本地工作环境，暂存区为本地仓库，仓库区为远程仓库，第一次通过add命令将文件从本地工作区提交至本地仓库暂时保存，随后通过commit命令提交注释至远程仓库。
 
-### 1. 仓库状态
+### 5.1 仓库状态
 
 > 查看当前文件的修改状态，默认情况下不显示忽略文件，红色为工作区修改，绿色为暂存区。
 
@@ -116,9 +124,7 @@ $ git status [option]	# 查看本地工作区修改
 $ git diff HEAD HEAD^ <files>	# 查看两个版本的差异
 ```
 
-
-
-### 提交修改
+### 5.2 提交修改
 
 #### 工作区
 
@@ -142,14 +148,14 @@ $ git commit --amend 	# 修改提交到上一次他
 $ git push		# 提交代码到仓库区
 ```
 
-### 提交日志
+### 5.3 提交日志
 
 ```bash
 $ git log		# 查看提交日志
 $ git reflog	# 查看操作日志
 ```
 
-### 回退版本
+### 5.4 回退版本
 
 > Head表示当前指针，通过使用checkout调整指针所在版本号进行版本的回退
 
@@ -165,7 +171,7 @@ $ git reset -hard 版本号
 >
 > HEAD^^或HEAD-2当前最新版本的前两个版本
 
-### 更新版本
+### 5.5 更新版本
 
 > 更新版本有两种方式，一般采用pull，但实际上，由于pull隐藏了更新具体过程，可能会导致一些问题，更加安全的方式是通过fetch和merge方法进行更新。
 
@@ -178,7 +184,7 @@ $ git fetch	# 获取修改
 $ git merge	# 合并修改
 ```
 
-### 撤销修改
+### 5.6 撤销修改
 
 #### 撤销工作区
 
@@ -199,6 +205,8 @@ $ git checkout filename
 ```
 
 > 仓库区代码不能撤销
+
+
 
 ## 6. 冲突处理
 
@@ -223,9 +231,11 @@ $ git checkout filename
 > > 5. 下班前一定要提交代码，上班第一件事拉取最新代码
 > > 6. 一定不要擅自修改他人代码
 
+
+
 ## 7. 其他操作
 
-### 1. 短命令
+### 7.1 短命令
 
 > git支持独立的短命令设置
 
@@ -235,6 +245,73 @@ $ git config alias.<alias> "command"
 # then using by
 $ git <alias>
 ```
+
+### 7.2 撤销commit
+
+> 写完代码后，我们一般这样
+>
+> git add . //添加所有文件
+>
+> git commit -m "本功能全部完成"
+>
+> 执行完commit后，想撤回commit，怎么办？
+>
+> 这样凉拌：
+>
+> git reset --soft HEAD^
+>
+> 这样就成功的撤销了你的commit
+>
+> 注意，仅仅是撤回commit操作，您写的代码仍然保留。
+>
+>  
+>
+> 说一下个人理解：
+> HEAD^的意思是上一个版本，也可以写成HEAD~1
+>
+> 如果你进行了2次commit，想都撤回，可以使用HEAD~2
+>
+> 至于这几个参数：
+>
+> --mixed 
+> 意思是：不删除工作空间改动代码，撤销commit，并且撤销git add . 操作
+> 这个为默认参数,git reset --mixed HEAD^ 和 git reset HEAD^ 效果是一样的。
+>
+> --soft  
+> 不删除工作空间改动代码，撤销commit，不撤销git add . 
+>
+> --hard
+> 删除工作空间改动代码，撤销commit，撤销git add . 
+>
+> 注意完成这个操作后，就恢复到了上一次的commit状态。
+
+### 7.3 标签
+
+#### 设置本地标签
+
+```bash
+$ git tag -a 标签名 -m "标签描述"
+```
+
+#### 推送本地标签到远程
+
+```bash
+$ git push origin 标签名
+```
+
+#### 删除本地标签
+
+```bash
+$ git tag -d 标签名
+```
+
+#### 删除远程标签
+
+```bash
+$ git push origin --delete tag 标签名
+```
+
+
 
 
 
@@ -252,36 +329,6 @@ $ git config --global credential.helper store长期有效
 
 
 
-
-
-## 四、标签
-
-### 4.1 设置本地标签
-
-```bash
-$ git tag -a 标签名 -m "标签描述"
-```
-
-### 4.2 推送本地标签到远程
-
-```bash
-$ git push origin 标签名
-```
-
-### 4.3 删除本地标签
-
-```bash
-$ git tag -d 标签名
-```
-
-### 4.4 删除远程标签
-
-```bash
-$ git push origin --delete tag 标签名
-```
-
-
-
 # 参考手册
 
 ## 1. git push
@@ -292,8 +339,6 @@ $ git push origin --delete tag 标签名
 $ git push -u <short_name> <your_branch_name>
 ```
 
-
-
 ## 2. git push --set-upstream
 
 > 在使用`git push`之前，我们应该先设置好`origin`和`upstream`。下面是设置`upstream`的命令。用法如下：
@@ -301,8 +346,6 @@ $ git push -u <short_name> <your_branch_name>
 ```bash
 $ git push --set-upstream <short_name> <branch_name>
 ```
-
-
 
 ## 3. git fetch
 
@@ -361,8 +404,6 @@ $ git log
 | --stas    | 显示日志具体修改信息             |
 | --patch   | 显示日志具体修改信息及文档原文件 |
 
-
-
 ## 7. git shortlog
 
 > `git shortlog`命令会显示来自`git log`命令的摘要。如果你只对简短的摘要感兴趣，那么此命令就非常有用了。这个命令有助于查看谁处理了什么，因为它对作者及其提交进行了分组。
@@ -397,15 +438,11 @@ $ git merge <branch_name>
 
 此命令会将`<branch_name>`合并到当前你选择的分支中。
 
-
-
 ## 11. git rebase
 
 > `git rebase`类似于`git merge`命令。它把两个分支集成到一个分支中，但有一个不一样的地方：`git rebase`命令将会重写提交记录。
 >
 > 当你有多个私有分支合并到单个分支时，应使用`git rebase`命令。它将使得提交历史成为线性的。
-
-用法
 
 ```bash
 $ git rebase <base>
@@ -537,10 +574,6 @@ $ git diff <source branch> <target branch>
 
 `git citool`是Git提交的图形化替代。
 
-![图片](E:\工具\Typora\Temp\640)
-
-用法
-
 ```bash
 $ git citool
 ```
@@ -587,7 +620,9 @@ $ git whatchanged
 
 
 
-# Large File Storage
+
+
+# Large File Storage(LFS)
 
 ## 1. Getting Started
 
@@ -626,3 +661,4 @@ $ git push origin main
 To file an issue or contribute to the project, head over [to the repository](https://github.com/git-lfs/git-lfs?utm_source=gitlfs_site&utm_medium=repo_link&utm_campaign=gitlfs) or read our [guide to contributing](https://github.com/git-lfs/git-lfs/blob/main/CONTRIBUTING.md?utm_source=gitlfs_site&utm_medium=contributing_link&utm_campaign=gitlfs).
 
 If you're interested in integrating Git LFS into another tool or product, you might want to read the [API specification](https://github.com/git-lfs/git-lfs/blob/main/docs/api/README.md?utm_source=gitlfs_site&utm_medium=api_spec_link&utm_campaign=gitlfs) or check out our [reference server implementation](https://github.com/git-lfs/lfs-test-server?utm_source=gitlfs_site&utm_medium=reference_servedr&utm_campaign=gitlfs).
+
